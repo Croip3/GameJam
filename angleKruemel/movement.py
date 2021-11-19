@@ -38,7 +38,8 @@ def movementHandler(steps, source, delta, events):
             direction[i] += 1 * steps
     
     source[0] = source[0] + direction[3]*delta - direction[2]*delta
-    source[1] = source[1] + direction[0]*delta - direction[1]*delta
+    source[1] = source[1] - direction[1]*delta
+    #source[1] = source[1] + direction[0]*delta - direction[1]*delta
 
     return source
 
@@ -49,10 +50,10 @@ def applyGravitation(fall, source, isFalling, steps, delta):
     if isFalling and fallSpeed<2*steps:
         if fallSpeed == 0:
             fallSpeed = 1
-        fallSpeed *= fall
+        fallSpeed *= fall*fall
     elif not(isFalling):
         fallSpeed = 0
-    
+
     source[1] += fallSpeed*delta
 
     return source

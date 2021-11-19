@@ -34,13 +34,13 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    source = mv.movementHandler(steps, source, delta, events)
-
     if pygame.Rect.colliderect(player,obstacle):
         isFalling = False
+        source[1] = obstacle.y -19
     else:
         isFalling = True
 
+    source = mv.movementHandler(steps, source, delta, events)
     source = mv.applyGravitation(fallAcceleration, source, isFalling, steps, delta)
 
     player.update(source[0], source[1], 20, 20)
