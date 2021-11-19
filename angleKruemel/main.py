@@ -21,31 +21,21 @@ FPS = 60
 clock = pygame.time.Clock()
 
 while running:
-
-    source[0] = source[0] + direction[0] - direction[1]
-    source[1] = source[1] + direction[2] - direction[3]
-
+    #resetting direction list
     direction = [0, 0, 0, 0]
-
-    player = pygame.Rect(source[0], source[1], 20, 20)
 
     events = pygame.event.get()
     for event in events:
         if event.type == pygame.QUIT:
             running = False
-        #procedure for the running method
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_DOWN:
-                source[0] += 1 * steps
                 ButtonPresses[0] = True
             if event.key == pygame.K_UP:
-                source[0] -= 1 * steps
                 ButtonPresses[1] = True
             if event.key == pygame.K_LEFT:
-                source[1] -= 1 * steps
                 ButtonPresses[2] = True
             if event.key == pygame.K_RIGHT:
-                source[1] += 1 * steps
                 ButtonPresses[3] = True
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_DOWN:
@@ -60,8 +50,12 @@ while running:
     for i in range(0,4,1):
         if ButtonPresses[i]:
             direction[i] += 1 * steps
-
     
+    source[0] = source[0] + direction[3] - direction[2]
+    source[1] = source[1] + direction[0] - direction[1]
+
+    player = pygame.Rect(source[0], source[1], 20, 20)
+
     screen.fill((255, 0, 0))
     pygame.draw.rect(screen, (255, 255, 255), player)
     pygame.display.flip()
