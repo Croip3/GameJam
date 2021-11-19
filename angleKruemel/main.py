@@ -7,7 +7,7 @@ screen = pygame.display.set_mode([400, 400])
 
 running = True
 
-x = 250
+x = 25
 y = 250
 
 steps = 10
