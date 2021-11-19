@@ -9,7 +9,7 @@ running = True
 
 x = 25
 y = 250
-#this is my test
+#this is my test -- nun aber wirkjlich!
 
 steps = 10
 
