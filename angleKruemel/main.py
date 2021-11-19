@@ -1,4 +1,5 @@
 import pygame
+import movement as mv
 
 pygame.init()
 
@@ -8,10 +9,10 @@ h, w = 540, 960
 screen = pygame.display.set_mode([w, h])
 
 #buttonpress-constants
-steps = 10
+steps = 30
 source = [200,200]
-direction = [0, 0, 0, 0]
-ButtonPresses = [False, False, False, False]
+player = pygame.Rect(source[0], source[1], 20, 20)
+obstacle = pygame.Rect(0,400,800,20)
 
 #game variable
 running = True
@@ -19,46 +20,35 @@ running = True
 #framerate
 FPS = 60
 clock = pygame.time.Clock()
+delta = 1
+
+#falling acceleration
+fallAcceleration = 1.1
+isFalling = True
 
 while running:
-    #resetting direction list
-    direction = [0, 0, 0, 0]
 
     events = pygame.event.get()
+
     for event in events:
         if event.type == pygame.QUIT:
             running = False
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_DOWN:
-                ButtonPresses[0] = True
-            if event.key == pygame.K_UP:
-                ButtonPresses[1] = True
-            if event.key == pygame.K_LEFT:
-                ButtonPresses[2] = True
-            if event.key == pygame.K_RIGHT:
-                ButtonPresses[3] = True
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_DOWN:
-                ButtonPresses[0] = False
-            if event.key == pygame.K_UP:
-                ButtonPresses[1] = False
-            if event.key == pygame.K_LEFT:
-                ButtonPresses[2] = False
-            if event.key == pygame.K_RIGHT:
-                ButtonPresses[3] = False
-    
-    for i in range(0,4,1):
-        if ButtonPresses[i]:
-            direction[i] += 1 * steps
-    
-    source[0] = source[0] + direction[3] - direction[2]
-    source[1] = source[1] + direction[0] - direction[1]
 
-    player = pygame.Rect(source[0], source[1], 20, 20)
+    if pygame.Rect.colliderect(player,obstacle):
+        isFalling = False
+        source[1] = obstacle.y -19
+    else:
+        isFalling = True
+
+    source = mv.movementHandler(steps, source, delta, events)
+    source = mv.applyGravitation(fallAcceleration, source, isFalling, steps, delta)
+
+    player.update(source[0], source[1], 20, 20)
 
     screen.fill((255, 0, 0))
+    pygame.draw.rect(screen, (255, 255, 0), obstacle)
     pygame.draw.rect(screen, (255, 255, 255), player)
     pygame.display.flip()
-    clock.tick(FPS)
+    delta = clock.tick(FPS)/60
 
 pygame.quit()
