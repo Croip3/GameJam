@@ -9,8 +9,10 @@ h, w = 540, 960
 screen = pygame.display.set_mode([w, h])
 
 #buttonpress-constants
-steps = 10
+steps = 30
 source = [200,200]
+player = pygame.Rect(source[0], source[1], 20, 20)
+obstacle = pygame.Rect(0,400,800,20)
 
 #game variable
 running = True
@@ -18,6 +20,11 @@ running = True
 #framerate
 FPS = 60
 clock = pygame.time.Clock()
+delta = 1
+
+#falling acceleration
+fallAcceleration = 1.1
+isFalling = True
 
 while running:
 
@@ -27,13 +34,21 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    source = mv.movementHandler(steps, source, events)
+    source = mv.movementHandler(steps, source, delta, events)
 
-    player = pygame.Rect(source[0], source[1], 20, 20)
+    if pygame.Rect.colliderect(player,obstacle):
+        isFalling = False
+    else:
+        isFalling = True
+
+    source = mv.applyGravitation(fallAcceleration, source, isFalling, steps, delta)
+
+    player.update(source[0], source[1], 20, 20)
 
     screen.fill((255, 0, 0))
+    pygame.draw.rect(screen, (255, 255, 0), obstacle)
     pygame.draw.rect(screen, (255, 255, 255), player)
     pygame.display.flip()
-    clock.tick(FPS)
+    delta = clock.tick(FPS)/60
 
 pygame.quit()
