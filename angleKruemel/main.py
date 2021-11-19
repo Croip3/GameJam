@@ -1,18 +1,27 @@
-print ("angleKruemel gestartet")
-
 import pygame
 
 pygame.init()
-screen = pygame.display.set_mode([400, 400])
 
+#setting the screen values
+h, w = 540, 960
+
+screen = pygame.display.set_mode([w, h])
+
+
+#game variable
 running = True
 
+FPS = 60
 x = 250
 y = 250
 
 steps = 10
 
+clock = pygame.time.Clock()
+
 while running:
+
+    player = pygame.Rect(x, y, 20, 20)
 
     events = pygame.event.get()
     for event in events:
@@ -29,10 +38,9 @@ while running:
                 x += 1 * steps
                 
     screen.fill((255, 0, 0))
-
-    pygame.draw.rect(screen, (255, 255, 255), (x, y, 20, 20))    
-
     #screen update
+    pygame.draw.rect(screen, (255, 255, 255), player)
     pygame.display.flip()
+    clock.tick(FPS)
 
 pygame.quit()
