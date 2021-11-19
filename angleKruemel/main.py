@@ -7,18 +7,17 @@ h, w = 540, 960
 
 screen = pygame.display.set_mode([w, h])
 
+#buttonpress-constants
+steps = 10
+source = [200,200]
+direction = [0, 0, 0, 0]
 ButtonPresses = [False, False, False, False]
-pressed = False
 
 #game variable
 running = True
 
+#framerate
 FPS = 60
-source = [200,200]
-direction = [0, 0, 0, 0]
-
-steps = 10
-
 clock = pygame.time.Clock()
 
 while running:
@@ -34,6 +33,7 @@ while running:
     for event in events:
         if event.type == pygame.QUIT:
             running = False
+        #procedure for the running method
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_DOWN:
                 source[0] += 1 * steps
@@ -63,7 +63,6 @@ while running:
 
     
     screen.fill((255, 0, 0))
-    #screen update
     pygame.draw.rect(screen, (255, 255, 255), player)
     pygame.display.flip()
     clock.tick(FPS)
