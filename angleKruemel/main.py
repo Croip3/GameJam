@@ -12,7 +12,7 @@ screen = pygame.display.set_mode([w, h])
 steps = 30
 source = [200,200]
 player = pygame.Rect(source[0], source[1], 20, 20)
-obstacle = pygame.Rect(0,400,800,20)
+listOfObstacles = [pygame.Rect(0,400,800,20), pygame.Rect(200,300,800,20)]
 
 #game variable
 running = True
@@ -26,6 +26,8 @@ delta = 1
 fallAcceleration = 1.1
 isFalling = True
 
+colliding = [False,False,False,False]
+
 while running:
 
     events = pygame.event.get()
@@ -34,10 +36,11 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    if pygame.Rect.colliderect(player,obstacle):
-        isFalling = False
-        source[1] = obstacle.y -19
-    else:
+    for obstacle in listOfObstacles:
+        if pygame.Rect.colliderect(player,obstacle) and player.y < obstacle.y:
+            isFalling = False
+            source[1] = obstacle.y -19
+            break
         isFalling = True
 
     source = mv.movementHandler(steps, source, delta, events)
@@ -46,7 +49,8 @@ while running:
     player.update(source[0], source[1], 20, 20)
 
     screen.fill((255, 0, 0))
-    pygame.draw.rect(screen, (255, 255, 0), obstacle)
+    for obstacle in listOfObstacles:
+        pygame.draw.rect(screen, (255, 255, 0), obstacle)
     pygame.draw.rect(screen, (255, 255, 255), player)
     pygame.display.flip()
     delta = clock.tick(FPS)/60
