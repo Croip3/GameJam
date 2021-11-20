@@ -11,6 +11,7 @@ screen = pygame.display.set_mode([w, h])
 
 #movement variables
 steps = 40
+closedKeys = set()
 source = [200,200]
 player = pygame.Rect(source[0], source[1], 20, 20)
 listOfObstacles = [pygame.Rect(0,400,800,20), pygame.Rect(200,300,800,30),pygame.Rect(400,370,20,30)]
@@ -52,8 +53,9 @@ while running:
         running = False
 
     #applying HardCollision for strong objects
-    result = cl.applyHardCollision(player,listOfObstacles + listOfHostileObstacles,source)
-    closedKeys = result[0].copy()
+    result = cl.applyHardCollision(player,listOfObstacles + listOfHostileObstacles,source, isFalling)
+    if len(result[0]) != 0:
+        closedKeys = result[0].copy()
     source = result[1].copy()
 
     if "up" in closedKeys:
@@ -80,7 +82,7 @@ while running:
     pygame.draw.rect(screen, (255, 255, 255), player)
 
     #calculating destiny of player and updating it
-    source = mv.movementHandler(steps, source, delta, events, collideArray)
+    source = mv.movementHandler(steps, source, delta, events, collideArray, isFalling)
     source = mv.applyGravitation(fallAcceleration, source, isFalling, steps, delta)
     player.update(source[0], source[1], player.width, player.height)
 
@@ -102,6 +104,7 @@ while running:
     collideInfo = [0,0,""]
     collideArray = []
     isFalling = True
+    closedKeys.clear()
 
     #calculating delta
     milli = clock.tick(FPS)

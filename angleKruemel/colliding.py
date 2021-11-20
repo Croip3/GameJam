@@ -3,7 +3,7 @@ import pygame
 oldsource = [-1,-1]
 collideArray = []
 
-def applyHardCollision(player, listOfObstacles, source):
+def applyHardCollision(player, listOfObstacles, source, isFalling):
 
     global oldsource
     global collideArray
@@ -14,17 +14,25 @@ def applyHardCollision(player, listOfObstacles, source):
     if oldsource == [-1,-1]:
         oldsource = source
 
+    goneUp = False
+
     for obstacle in listOfObstacles:
         if pygame.Rect.colliderect(player,obstacle):
             #get infos about the direction, which the player is colliding
             collideInfo = directionCollided(pygame.Rect(oldsource[0],oldsource[1],20,20), player, obstacle)
-            collideArray.append(collideInfo)
-            #preserve gravitation
-            for collideInfo in collideArray:
-                closedKeys.add(collideInfo[2])
             
-            #collision resets you to your old point
-
+            if goneUp and collideInfo[2] == "up":
+                if player.x < obstacle.x:
+                    collideInfo[2] = "left"
+                else:
+                    collideInfo[2] = "right"
+            if player.y > obstacle.y and collideInfo[2] == "up":
+                collideInfo[2] = "down"
+            if collideInfo[2] == "up":
+                goneUp = True
+            if not collideInfo[3]:
+                collideArray.append(collideInfo)
+            #preserve gravitation
             if "left" == collideInfo[2]:
                 source[0] = obstacle.x - player.width + 1
             if "right" == collideInfo[2]:
@@ -33,6 +41,14 @@ def applyHardCollision(player, listOfObstacles, source):
                 source[1] = obstacle.y - player.height + 1 
             if "down" == collideInfo[2]:
                 source[1] = obstacle.y + obstacle.height - 1
+
+
+    for collideInfo in collideArray:
+        closedKeys.add(collideInfo[2])
+            
+            #collision resets you to your old point
+
+    
 
     oldsource = source.copy()
 
@@ -60,6 +76,9 @@ def directionCollided(old, new, obstacle):
     else:
         CollideDir[1] = 0
 
+    if CollideDir[0] == 0 and CollideDir[1] == 0:
+        return [0,0,"up",False]
+
     #if you were left to a obstackle before colliding, then you safely came from the left
     if old.x + old.width < obstacle.x + 2:
         CollideDir[2] = "left"
@@ -68,9 +87,11 @@ def directionCollided(old, new, obstacle):
         CollideDir[2] = "right"
     #if both dont apply, than you are under or over the obstackle. Therefore we need a simple distinction of cases
     else:
-        if CollideDir[1] < 0:
+        if CollideDir[1] <= 0 and old.y + old.height < obstacle.y + 2:
             CollideDir[2] = "up"
-        elif CollideDir[1] > 0:
+        elif CollideDir[1] >= 0 and old.y > obstacle.y + obstacle.height - 2:
             CollideDir[2] = "down"
+
+    CollideDir.append(False)
 
     return CollideDir

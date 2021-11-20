@@ -7,7 +7,7 @@ ButtonPresses = [False, False, False, False]
 #speed of falling
 fallSpeed = 1
 
-def movementHandler(steps, source, delta, events, collideArray):
+def movementHandler(steps, source, delta, events, collideArray, isFalling):
     #set the variables global to adjust them in runtime
     global direction
     global ButtonPresses
@@ -22,7 +22,7 @@ def movementHandler(steps, source, delta, events, collideArray):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_DOWN and "up" not in closedKeys:
                 ButtonPresses[0] = True
-            if event.key == pygame.K_UP and "down" not in closedKeys:
+            if event.key == pygame.K_UP and "down" not in closedKeys and not isFalling:
                 ButtonPresses[1] = True
             if event.key == pygame.K_LEFT and "right" not in closedKeys:
                 ButtonPresses[2] = True
