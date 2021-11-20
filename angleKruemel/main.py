@@ -1,5 +1,8 @@
 import pygame
 
+#############
+import jesus
+
 pygame.init()
 
 #setting the screen values
@@ -12,16 +15,20 @@ screen = pygame.display.set_mode([w, h])
 running = True
 
 FPS = 60
-x = 250
-y = 250
+x = 10
+y = 10
 
 steps = 10
 
 clock = pygame.time.Clock()
 
+moving_sprites = pygame.sprite.Group()
+player = jesus.Jesus(x, y, 0.5, 10)
+moving_sprites.add(player)
+
 while running:
 
-    player = pygame.Rect(x, y, 20, 20)
+    #player = pygame.Rect(x, y, 20, 20)
 
     events = pygame.event.get()
     for event in events:
@@ -29,17 +36,22 @@ while running:
             running = False
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_DOWN:
-                y += 1 * steps
+                player.down()
             if event.key == pygame.K_UP:
-                y -= 1 * steps
+                player.up()
             if event.key == pygame.K_LEFT:
-                x -= 1 * steps
+                player.left()
+                player.walk()
             if event.key == pygame.K_RIGHT:
-                x += 1 * steps
+                player.right()
+                player.walk()
                 
-    screen.fill((255, 0, 0))
+    screen.fill((100, 0, 0))
     #screen update
-    pygame.draw.rect(screen, (255, 255, 255), player)
+    #pygame.draw.rect(screen, (255, 255, 255), player)
+
+    moving_sprites.draw(screen)
+    moving_sprites.update(0.20)
     pygame.display.flip()
     clock.tick(FPS)
 
