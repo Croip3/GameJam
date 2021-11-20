@@ -25,10 +25,14 @@ def applyHardCollision(player, listOfObstacles, source):
             
             #collision resets you to your old point
 
-            if "left" in closedKeys or "right" in closedKeys:
-                source[0] = oldsource[0]
-            if "up" in closedKeys or "down" in closedKeys:
-                source[1] = oldsource[1]
+            if "left" == collideInfo[2]:
+                source[0] = obstacle.x - player.width + 1
+            if "right" == collideInfo[2]:
+                source[0] = obstacle.x + obstacle.width - 1
+            if "up" == collideInfo[2]: 
+                source[1] = obstacle.y - player.height + 1 
+            if "down" == collideInfo[2]:
+                source[1] = obstacle.y + obstacle.height - 1
 
     oldsource = source.copy()
 
@@ -56,15 +60,11 @@ def directionCollided(old, new, obstacle):
     else:
         CollideDir[1] = 0
 
-    #if the values didn't changed from the player, then he must stand on a obstackle
-    if CollideDir[0] == 0 and CollideDir[1] == 0:
-        return [0, 0, "up"]
-
     #if you were left to a obstackle before colliding, then you safely came from the left
-    if old.x + old.width < obstacle.x:
+    if old.x + old.width < obstacle.x + 2:
         CollideDir[2] = "left"
     #same thing, just from the right
-    elif old.x > obstacle.x + obstacle.width:
+    elif old.x > obstacle.x + obstacle.width - 2:
         CollideDir[2] = "right"
     #if both dont apply, than you are under or over the obstackle. Therefore we need a simple distinction of cases
     else:
