@@ -1,4 +1,5 @@
 import pygame
+import jesus
 
 #buttonpress variables
 direction = [0, 0, 0, 0]
@@ -7,8 +8,10 @@ ButtonPresses = [False, False, False, False]
 #speed of falling
 fallSpeed = 1
 
-def movementHandler(steps, source, delta, events, collideArray, isFalling):
-    #set the variables global to adjust them in runtime
+def playerMove():
+    pass
+
+def movementHandler(steps, source, delta, events, collideArray, isFalling, player):
     global direction
     global ButtonPresses
     direction = [0, 0, 0, 0]
@@ -41,6 +44,8 @@ def movementHandler(steps, source, delta, events, collideArray, isFalling):
     for i in range(0,4,1):
         if ButtonPresses[i]:
             direction[i] += 1 * steps
+        if ButtonPresses[2] or ButtonPresses[3]:
+            player.walk()
     
     #applying the direction which was pressed
     source[0] = source[0] + direction[3]*delta - direction[2]*delta

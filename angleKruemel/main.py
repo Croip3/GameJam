@@ -1,6 +1,7 @@
 import pygame
 import movement as mv
 import colliding as cl
+import jesus
 
 pygame.init()
 
@@ -13,7 +14,6 @@ screen = pygame.display.set_mode([w, h])
 steps = 40
 closedKeys = set()
 source = [200,200]
-player = pygame.Rect(source[0], source[1], 20, 20)
 listOfObstacles = [pygame.Rect(0,400,800,20), pygame.Rect(200,300,800,30),pygame.Rect(400,370,20,30)]
 listOfBlessings = [pygame.Rect(300,370,20,20)]
 listOfCookies = []
@@ -33,6 +33,11 @@ FPS = 300
 clock = pygame.time.Clock()
 delta = 1
 
+#player sprite
+moving_sprites = pygame.sprite.Group()
+player = jesus.Jesus(source[0], source[1], 0.5)
+moving_sprites.add(player)
+
 #falling acceleration variables
 fallAcceleration = 5
 isFalling = True
@@ -42,12 +47,13 @@ collideInfo = [0,0,""]
 collideArray = []
 
 while running:
-
     events = pygame.event.get()
 
     for event in events:
         if event.type == pygame.QUIT:
             running = False
+                
+    screen.fill((100, 0, 0))
 
     if player.width == 0 and player.height == 0:
         running = False
@@ -69,7 +75,7 @@ while running:
             lifes += 1
 
     #draw the game
-    player.update(source[0], source[1], player.width, player.height)
+    player.setPos(source[0], source[1])
     screen.fill((255, 0, 0))
     textsurface = myfont.render('Punkte: '+str(lifes), False, (0, 0, 0))
     screen.blit(textsurface, (0,0))
@@ -80,11 +86,13 @@ while running:
     for hostiles in listOfHostileObstacles:
         pygame.draw.rect(screen, (0, 0, 0), hostiles)
     pygame.draw.rect(screen, (255, 255, 255), player)
+    moving_sprites.draw(screen)
+    moving_sprites.update(0.20)
 
     #calculating destiny of player and updating it
     source = mv.movementHandler(steps, source, delta, events, collideArray, isFalling)
     source = mv.applyGravitation(fallAcceleration, source, isFalling, steps, delta)
-    player.update(source[0], source[1], player.width, player.height)
+    player.setPos(source[0], source[1])
 
     for hostile in listOfHostileObstacles:
         if pygame.Rect.colliderect(player,hostile) and not damaged:
