@@ -19,7 +19,7 @@ def applyHardCollision(player, listOfObstacles, source, isFalling):
     for obstacle in listOfObstacles:
         if pygame.Rect.colliderect(player,obstacle):
             #get infos about the direction, which the player is colliding
-            collideInfo = directionCollided(pygame.Rect(oldsource[0],oldsource[1],20,20), player, obstacle)
+            collideInfo = directionCollided(pygame.Rect(oldsource[0],oldsource[1],player.width,player.height), player, obstacle)
             
             if goneUp and collideInfo[2] == "up":
                 if player.x < obstacle.x:

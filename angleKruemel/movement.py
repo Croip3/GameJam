@@ -11,14 +11,10 @@ fallSpeed = 1
 def playerMove():
     pass
 
-def movementHandler(steps, source, delta, events, collideArray, isFalling, player):
+def movementHandler(steps, source, delta, events, closedKeys, isFalling, player):
     global direction
     global ButtonPresses
     direction = [0, 0, 0, 0]
-    #initialize a set for infunctional key because you collided
-    closedKeys = set()
-    for collideInfo in collideArray:
-        closedKeys.add(collideInfo[2])
 
     #starting event loop
     for event in events:

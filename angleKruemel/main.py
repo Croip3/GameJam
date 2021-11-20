@@ -6,7 +6,7 @@ import jesus
 pygame.init()
 
 #setting the screen values
-h, w = 540, 960
+h, w = 720, 1280
 
 screen = pygame.display.set_mode([w, h])
 
@@ -14,7 +14,7 @@ screen = pygame.display.set_mode([w, h])
 steps = 40
 closedKeys = set()
 source = [200,200]
-listOfObstacles = [pygame.Rect(0,400,800,20), pygame.Rect(200,300,800,30),pygame.Rect(400,370,20,30)]
+listOfObstacles = [pygame.Rect(0,700,1100,20), pygame.Rect(200,300,800,30),pygame.Rect(400,670,20,30)]
 listOfBlessings = [pygame.Rect(300,370,20,20)]
 listOfCookies = []
 listOfHostileObstacles = [pygame.Rect(0,300,100,20)]
@@ -29,7 +29,7 @@ pygame.font.init()
 myfont = pygame.font.SysFont('Comic Sans MS', 30)
 
 #framerate variables
-FPS = 300
+FPS = 30
 clock = pygame.time.Clock()
 delta = 1
 
@@ -55,11 +55,10 @@ while running:
                 
     screen.fill((100, 0, 0))
 
-    if player.width == 0 and player.height == 0:
+    if player.rect.width == 0 and player.rect.height == 0:
         running = False
-
     #applying HardCollision for strong objects
-    result = cl.applyHardCollision(player,listOfObstacles + listOfHostileObstacles,source, isFalling)
+    result = cl.applyHardCollision(player.rect,listOfObstacles + listOfHostileObstacles,source, isFalling)
     if len(result[0]) != 0:
         closedKeys = result[0].copy()
     source = result[1].copy()
@@ -67,15 +66,14 @@ while running:
     if "up" in closedKeys:
         isFalling = False
 
-    print(closedKeys)
-
     for collectible in listOfBlessings:
-        if pygame.Rect.colliderect(player,collectible):
+        if pygame.Rect.colliderect(player.rect,collectible):
             listOfBlessings.remove(collectible)
             lifes += 1
 
     #draw the game
     player.setPos(source[0], source[1])
+
     screen.fill((255, 0, 0))
     textsurface = myfont.render('Punkte: '+str(lifes), False, (0, 0, 0))
     screen.blit(textsurface, (0,0))
@@ -85,24 +83,25 @@ while running:
         pygame.draw.rect(screen, (255, 255, 0), collectibles)
     for hostiles in listOfHostileObstacles:
         pygame.draw.rect(screen, (0, 0, 0), hostiles)
-    pygame.draw.rect(screen, (255, 255, 255), player)
     moving_sprites.draw(screen)
     moving_sprites.update(0.20)
 
     #calculating destiny of player and updating it
-    source = mv.movementHandler(steps, source, delta, events, collideArray, isFalling)
+
+    source = mv.movementHandler(steps, source, delta, events, closedKeys, isFalling, player)
     source = mv.applyGravitation(fallAcceleration, source, isFalling, steps, delta)
     player.setPos(source[0], source[1])
+    player.updateRect()
 
     for hostile in listOfHostileObstacles:
-        if pygame.Rect.colliderect(player,hostile) and not damaged:
+        if pygame.Rect.colliderect(player.rect,hostile) and not damaged:
             if lifes == 0:
-                player.width = 0
-                player.height = 0
+                player.rect.width = 0
+                player.rect.height = 0
                 break
             lifes -= 1
             damaged = True
-        elif not pygame.Rect.colliderect(player,hostile):
+        elif not pygame.Rect.colliderect(player.rect,hostile):
             damaged = False
 
     #update window
@@ -110,7 +109,6 @@ while running:
 
     #deleting used values for movement and collision
     collideInfo = [0,0,""]
-    collideArray = []
     isFalling = True
     closedKeys.clear()
 
