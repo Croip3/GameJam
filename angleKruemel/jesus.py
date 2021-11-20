@@ -1,16 +1,15 @@
 import pygame
 class Jesus(pygame.sprite.Sprite):
-    def __init__(self, pos_x, pos_y, size, steps):
+    def __init__(self, pos_x, pos_y, size):
         super().__init__()
         self.x = pos_x
         self.y = pos_y
-        self.steps = steps
         self.walk_animation = False
         self.sprites = []
         self.sprites.append(pygame.image.load('./sprites/jesus/JesusStraight.png'))
         self.sprites.append(pygame.image.load('./sprites/jesus/JesusLeg2.png'))
-        self.sprites.append(pygame.image.load('./sprites/jesus/JesusStraight.png'))
-        self.sprites.append(pygame.image.load('./sprites/jesus/JesusLeg1.png'))
+        #self.sprites.append(pygame.image.load('./sprites/jesus/JesusStraight.png'))
+        #self.sprites.append(pygame.image.load('./sprites/jesus/JesusLeg1.png'))
 
         for i in range(len(self.sprites)):
             sprite = self.sprites[i]
@@ -26,8 +25,8 @@ class Jesus(pygame.sprite.Sprite):
         self.rect.topleft = [pos_x, pos_y]
 
     def update(self, speed):
+        self.rect.topleft = [self.x, self.y]
         if self.walk_animation == True:
-            self.rect.topleft = [self.x, self.y]
             self.current_sprite += 1 * speed
             if self.current_sprite >= len(self.sprites):
                 self.current_sprite = 0
@@ -37,11 +36,6 @@ class Jesus(pygame.sprite.Sprite):
     def walk(self):
 	    self.walk_animation = True
 
-    def left(self):
-        self.x -= 1 * self.steps
-    def right(self):
-        self.x += 1 * self.steps
-    def up(self):
-        self.y -= 1 * self.steps
-    def down(self):
-        self.y += 1 * self.steps
+    def setPos(self, x, y):
+        self.x = x
+        self.y = y

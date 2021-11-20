@@ -7,7 +7,10 @@ ButtonPresses = [False, False, False, False]
 #speed of falling
 fallSpeed = 1
 
-def movementHandler(steps, source, delta, events):
+def playerMove():
+    pass
+
+def movementHandler(steps, source, delta, events, player):
     
     global direction
     global ButtonPresses
@@ -36,6 +39,8 @@ def movementHandler(steps, source, delta, events):
     for i in range(0,4,1):
         if ButtonPresses[i]:
             direction[i] += 1 * steps
+        if ButtonPresses[2] or ButtonPresses[3]:
+            player.walk()
     
     source[0] = source[0] + direction[3]*delta - direction[2]*delta
     source[1] = source[1] - direction[1]*delta
