@@ -3,7 +3,7 @@
 ## Team
 
 -   Fairhorse: Artist
--   wwwSora: Programmierer
+-   Lukas: Programmierer
 -   Croip3: Programmierer
 
 ## Programmierung
