@@ -8,5 +8,4 @@ class WorldObject(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (int(self.size[0]*scale), int(self.size[1]*scale)))
 
         self.rect = self.image.get_rect()
-        print(self.rect)
         self.rect.topleft = [x, y]

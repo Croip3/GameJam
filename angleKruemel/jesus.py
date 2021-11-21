@@ -7,10 +7,10 @@ class Jesus(pygame.sprite.Sprite):
         self.walk_animation = False
         self.sprites = []
 
-        self.sprites.append(pygame.image.load('./angleKruemel/sprites/jesus/JesusStraight.png'))
-        self.sprites.append(pygame.image.load('./angleKruemel/sprites/jesus/JesusLeg2.png'))
-        self.sprites.append(pygame.image.load('./angleKruemel/sprites/jesus/JesusStraight.png'))
-        self.sprites.append(pygame.image.load('./angleKruemel/sprites/jesus/JesusLeg1.png'))
+        self.sprites.append(pygame.image.load('./sprites/jesus/JesusStraight.png'))
+        self.sprites.append(pygame.image.load('./sprites/jesus/JesusLeg2.png'))
+        self.sprites.append(pygame.image.load('./sprites/jesus/JesusStraight.png'))
+        self.sprites.append(pygame.image.load('./sprites/jesus/JesusLeg1.png'))
 
         for i in range(len(self.sprites)):
             sprite = self.sprites[i]

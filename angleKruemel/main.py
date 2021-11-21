@@ -50,9 +50,9 @@ isFalling = True
 # platforms
 platform_scale = 0.2
 platform_sprites = pygame.sprite.Group()
-platform1 = world.WorldObject('./angleKruemel/sprites/platforms/earthmedium.png', 50, 400, platform_scale)
-platform2 = world.WorldObject('./angleKruemel/sprites/platforms/earthmedium.png', 350, 400, platform_scale)
-platform3 = world.WorldObject('./angleKruemel/sprites/platforms/earthmedium.png', 650, 400, platform_scale)
+platform1 = world.WorldObject('./sprites/platforms/earthmedium.png', 50, 400, platform_scale)
+platform2 = world.WorldObject('./sprites/platforms/earthmedium.png', 350, 400, platform_scale)
+platform3 = world.WorldObject('./sprites/platforms/earthmedium.png', 650, 400, platform_scale)
 platform_sprites.add(platform1)
 platform_sprites.add(platform2)
 platform_sprites.add(platform3)
