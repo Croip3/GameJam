@@ -6,10 +6,11 @@ class Jesus(pygame.sprite.Sprite):
         self.y = pos_y
         self.walk_animation = False
         self.sprites = []
-        self.sprites.append(pygame.image.load('./angleKruemel/sprites/jesus/JesusStraight.png'))
-        self.sprites.append(pygame.image.load('./angleKruemel/sprites/jesus/JesusLeg2.png'))
-        #self.sprites.append(pygame.image.load('./sprites/jesus/JesusStraight.png'))
-        #self.sprites.append(pygame.image.load('./sprites/jesus/JesusLeg1.png'))
+
+        self.sprites.append(pygame.image.load('./sprites/jesus/JesusStraight.png'))
+        self.sprites.append(pygame.image.load('./sprites/jesus/JesusLeg2.png'))
+        self.sprites.append(pygame.image.load('./sprites/jesus/JesusStraight.png'))
+        self.sprites.append(pygame.image.load('./sprites/jesus/JesusLeg1.png'))
 
         for i in range(len(self.sprites)):
             sprite = self.sprites[i]
@@ -42,3 +43,8 @@ class Jesus(pygame.sprite.Sprite):
     def setPos(self, x, y):
         self.x = x
         self.y = y
+
+    def getCollisionZone(self):
+        self.player_collision_zone = pygame.Rect(self.rect.left  + 90 , self.rect.top, self.rect.width-155 , self.rect.height)
+        print(self.player_collision_zone)
+        return self.player_collision_zone
