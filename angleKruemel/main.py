@@ -18,7 +18,7 @@ source = [200,200]
 
 #merge
 #obstacle = pygame.Rect(0,400,800,20)
-listOfObstacles = [pygame.Rect(0,700,1100,20), pygame.Rect(200,300,800,30),pygame.Rect(400,670,20,30)]
+listOfObstacles = []
 listOfBlessings = [pygame.Rect(300,370,20,20)]
 listOfCookies = []
 listOfHostileObstacles = [pygame.Rect(0,300,100,20)]
@@ -50,12 +50,19 @@ isFalling = True
 # platforms
 platform_scale = 0.2
 platform_sprites = pygame.sprite.Group()
-platform1 = world.WorldObject('./sprites/platforms/earthmedium.png', 50, 400, platform_scale)
+platform1 = world.WorldObject('./angleKruemel/sprites/platforms/earthmedium.png', 50, 400, platform_scale)
+platform2 = world.WorldObject('./angleKruemel/sprites/platforms/earthmedium.png', 350, 400, platform_scale)
+platform3 = world.WorldObject('./angleKruemel/sprites/platforms/earthmedium.png', 650, 400, platform_scale)
 platform_sprites.add(platform1)
+platform_sprites.add(platform2)
+platform_sprites.add(platform3)
 
 #obstacles
 #merge
-listOfObstacle.append(platform1.rect)
+obstacle = platform1.rect
+listOfObstacles.append(platform1.rect)
+listOfObstacles.append(platform2.rect)
+listOfObstacles.append(platform3.rect)
 
 
 #collision variables
