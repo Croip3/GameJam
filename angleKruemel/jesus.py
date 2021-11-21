@@ -6,6 +6,7 @@ class Jesus(pygame.sprite.Sprite):
         self.y = pos_y
         self.walk_animation = False
         self.sprites = []
+
         self.sprites.append(pygame.image.load('./sprites/jesus/JesusStraight.png'))
         self.sprites.append(pygame.image.load('./sprites/jesus/JesusLeg2.png'))
         self.sprites.append(pygame.image.load('./sprites/jesus/JesusStraight.png'))
@@ -32,6 +33,9 @@ class Jesus(pygame.sprite.Sprite):
                 self.current_sprite = 0
                 self.walk_animation = False
             self.image = self.sprites[int(self.current_sprite)]
+
+    def updateRect(self):
+        self.rect.topleft = [self.x, self.y]
 
     def walk(self):
 	    self.walk_animation = True
