@@ -59,15 +59,21 @@ while running:
                 
     screen.fill((100, 0, 0))
 
+
+    pygame.draw.rect(screen, (255, 255, 0), player.rect)
+    pygame.draw.rect(screen, (255, 0, 0), player.getCollisionZone())
     moving_sprites.draw(screen)
     moving_sprites.update(0.20)
     pygame.draw.rect(screen, (255, 255, 0), obstacle)
     platform_sprites.draw(screen)
 
+    print(pygame.Rect.colliderect(player.getCollisionZone(), obstacle))
+    print(player.getCollisionZone)
+    print(obstacle)
 
-    if pygame.Rect.colliderect(player.rect, obstacle):
+    if pygame.Rect.colliderect(player.getCollisionZone(), obstacle):
         isFalling = False
-        source[1] = obstacle.y - player.rect.height-1
+        source[1] = obstacle.y - player.rect.height - 1
     else:
         isFalling = True
 

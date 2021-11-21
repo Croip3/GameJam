@@ -39,3 +39,8 @@ class Jesus(pygame.sprite.Sprite):
     def setPos(self, x, y):
         self.x = x
         self.y = y
+
+    def getCollisionZone(self):
+        self.player_collision_zone = pygame.Rect(self.rect.left  + 90 , self.rect.top, self.rect.width-155 , self.rect.height)
+        print(self.player_collision_zone)
+        return self.player_collision_zone
