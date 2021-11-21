@@ -2,6 +2,7 @@ import pygame
 import movement as mv
 import colliding as cl
 import jesus
+import world
 
 pygame.init()
 
@@ -13,11 +14,14 @@ screen = pygame.display.set_mode([w, h])
 #movement variables
 steps = 40
 closedKeys = set()
-source = [200,200]
-listOfObstacles = [pygame.Rect(0,700,1100,20), pygame.Rect(200,300,800,30),pygame.Rect(400,670,20,30)]
-listOfBlessings = [pygame.Rect(300,370,20,20)]
+source = [50,200]
+
+#merge
+#obstacle = pygame.Rect(0,400,800,20)
+listOfObstacles = []
+listOfBlessings = []
 listOfCookies = []
-listOfHostileObstacles = [pygame.Rect(0,300,100,20)]
+listOfHostileObstacles = []
 
 #game variables
 running = True
@@ -42,18 +46,48 @@ moving_sprites.add(player)
 fallAcceleration = 5
 isFalling = True
 
+#collectibles
+collectible_scale = 0.2
+collectible_sprites = pygame.sprite.Group()
+segen = world.WorldObject('./angleKruemel/sprites/collectibles/segen.png', 525, 300, 0.75*collectible_scale)
+collectible_sprites.add(segen)
+listOfBlessings.append(segen.rect)
+
+# platforms
+platform_scale = 0.2
+platform_sprites = pygame.sprite.Group()
+platform1 = world.WorldObject('./angleKruemel/sprites/platforms/earthmedium.png', 50, 400, 0.75*platform_scale)
+platform2 = world.WorldObject('./angleKruemel/sprites/platforms/earthsmallthin.png', 500, 400, 1.25*platform_scale)
+platform3 = world.WorldObject('./angleKruemel/sprites/platforms/earthsmallthicc.png', 1000, 400, platform_scale)
+BG = pygame.image.load('./angleKruemel/sprites/BG/BGCloud1.png')
+platform_sprites.add(platform1)
+platform_sprites.add(platform2)
+platform_sprites.add(platform3)
+
+#obstacles
+#merge
+#obstacle = platform1.rect
+listOfObstacles.append(platform1.rect)
+listOfObstacles.append(platform2.rect)
+listOfObstacles.append(platform3.rect)
+
+
 #collision variables
 collideInfo = [0,0,""]
 collideArray = []
 
 while running:
     events = pygame.event.get()
-
     for event in events:
         if event.type == pygame.QUIT:
             running = False
                 
     screen.fill((100, 0, 0))
+
+
+
+    #pygame.draw.rect(screen, (255, 255, 0), player.rect)
+    #pygame.draw.rect(screen, (255, 0, 0), player.getCollisionZone())
 
     if player.rect.width == 0 and player.rect.height == 0:
         running = False
@@ -76,19 +110,27 @@ while running:
 
     screen.fill((255, 0, 0))
     textsurface = myfont.render('Punkte: '+str(lifes), False, (0, 0, 0))
+    screen.blit(BG, (0,0))
     screen.blit(textsurface, (0,0))
-    for obstacle in listOfObstacles:
-        pygame.draw.rect(screen, (255, 255, 0), obstacle)
-    for collectibles in listOfBlessings:
-        pygame.draw.rect(screen, (255, 255, 0), collectibles)
+    #for obstacle in listOfObstacles:
+    #    pygame.draw.rect(screen, (255, 255, 0), obstacle)
+    #for collectibles in listOfBlessings:
+    #    pygame.draw.rect(screen, (255, 255, 0), collectibles)
     for hostiles in listOfHostileObstacles:
         pygame.draw.rect(screen, (0, 0, 0), hostiles)
+
     moving_sprites.draw(screen)
     moving_sprites.update(0.20)
+    #pygame.draw.rect(screen, (255, 255, 0), obstacle)
+    platform_sprites.draw(screen)
+    if segen.rect in listOfBlessings:
+        collectible_sprites.draw(screen)
 
+    #source = mv.movementHandler(steps, source, delta, events, player)
     #calculating destiny of player and updating it
 
     source = mv.movementHandler(steps, source, delta, events, closedKeys, isFalling, player)
+
     source = mv.applyGravitation(fallAcceleration, source, isFalling, steps, delta)
     player.setPos(source[0], source[1])
     player.updateRect()
