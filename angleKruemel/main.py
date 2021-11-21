@@ -3,6 +3,7 @@ import movement as mv
 
 #############
 import jesus
+import world
 
 pygame.init()
 
@@ -14,7 +15,7 @@ screen = pygame.display.set_mode([w, h])
 #buttonpress-constants
 steps = 30
 source = [200,200]
-obstacle = pygame.Rect(0,400,800,20)
+#obstacle = pygame.Rect(0,400,800,20)
 
 #game variable
 running = True
@@ -40,6 +41,16 @@ moving_sprites.add(player)
 fallAcceleration = 1.1
 isFalling = True
 
+# platforms
+platform_scale = 0.2
+platform_sprites = pygame.sprite.Group()
+platform1 = world.WorldObject('./sprites/platforms/earthmedium.png', 50, 400, platform_scale)
+platform_sprites.add(platform1)
+
+#obstacles
+obstacle = platform1.rect
+
+
 while running:
     events = pygame.event.get()
 
@@ -51,6 +62,8 @@ while running:
 
     moving_sprites.draw(screen)
     moving_sprites.update(0.20)
+    pygame.draw.rect(screen, (255, 255, 0), obstacle)
+    platform_sprites.draw(screen)
 
 
     if pygame.Rect.colliderect(player.rect, obstacle):
@@ -63,7 +76,6 @@ while running:
     source = mv.applyGravitation(fallAcceleration, source, isFalling, steps, delta)
     player.setPos(source[0], source[1])
 
-    pygame.draw.rect(screen, (255, 255, 0), obstacle)
 
     pygame.display.flip()
     delta = clock.tick(FPS)/60
