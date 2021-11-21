@@ -55,7 +55,7 @@ platform_sprites.add(platform1)
 
 #obstacles
 #merge
-obstacle = platform1.rect
+listOfObstacle.append(platform1.rect)
 
 
 #collision variables
@@ -97,8 +97,8 @@ while running:
     screen.fill((255, 0, 0))
     textsurface = myfont.render('Punkte: '+str(lifes), False, (0, 0, 0))
     screen.blit(textsurface, (0,0))
-    for obstacle in listOfObstacles:
-        pygame.draw.rect(screen, (255, 255, 0), obstacle)
+    #for obstacle in listOfObstacles:
+    #    pygame.draw.rect(screen, (255, 255, 0), obstacle)
     for collectibles in listOfBlessings:
         pygame.draw.rect(screen, (255, 255, 0), collectibles)
     for hostiles in listOfHostileObstacles:
@@ -108,13 +108,6 @@ while running:
     moving_sprites.update(0.20)
     pygame.draw.rect(screen, (255, 255, 0), obstacle)
     platform_sprites.draw(screen)
-
-    #merge?
-    if pygame.Rect.colliderect(player.getCollisionZone(), obstacle):
-        isFalling = False
-        source[1] = obstacle.y - player.rect.height - 1
-    else:
-        isFalling = True
 
     #source = mv.movementHandler(steps, source, delta, events, player)
     #calculating destiny of player and updating it
