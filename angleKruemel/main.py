@@ -26,8 +26,8 @@ listOfCookies = []
 listOfHostileObstacles = []
 
 #game variables
-game_over = pygame.image.load("angleKruemel\sprites\BG\gameOver_screen.png")
-won_game = pygame.image.load("angleKruemel\sprites\BG\win_screen.png")
+game_over = pygame.image.load(".\sprites\BG\gameOver_screen.png")
+won_game = pygame.image.load(".\sprites\BG\win_screen.png")
 lost = False
 won = False
 running = True
@@ -55,8 +55,8 @@ isFalling = True
 #collectibles
 collectible_scale = 0.2
 collectible_sprites = pygame.sprite.Group()
-segen = world.WorldObject('./angleKruemel/sprites/collectibles/segen.png', 525, 300, 0.75*collectible_scale)
-segen2 = world.WorldObject('./angleKruemel/sprites/collectibles/keks.png', 1025, 300, 1.5*collectible_scale)
+segen = world.WorldObject('./sprites/collectibles/segen.png', 525, 300, 0.75*collectible_scale)
+segen2 = world.WorldObject('./sprites/collectibles/keks.png', 1025, 300, 1.5*collectible_scale)
 collectible_sprites.add(segen)
 collectible_sprites.add(segen2)
 listOfBlessings.append(segen.rect)
@@ -79,10 +79,10 @@ listOfHostileObstacles.append(biene2.rect)
 # platforms
 platform_scale = 0.2
 platform_sprites = pygame.sprite.Group()
-platform1 = world.WorldObject('./angleKruemel/sprites/platforms/earthmedium.png', 50, 400, 0.75*platform_scale)
-platform2 = world.WorldObject('./angleKruemel/sprites/platforms/earthsmallthin.png', 500, 400, 1.25*platform_scale)
-platform3 = world.WorldObject('./angleKruemel/sprites/platforms/earthsmallthicc.png', 1000, 400, platform_scale)
-BG = pygame.image.load('./angleKruemel/sprites/BG/BGCloud1.png')
+platform1 = world.WorldObject('./sprites/platforms/earthmedium.png', 50, 400, 0.75*platform_scale)
+platform2 = world.WorldObject('./sprites/platforms/earthsmallthin.png', 500, 400, 1.25*platform_scale)
+platform3 = world.WorldObject('./sprites/platforms/earthsmallthicc.png', 1000, 400, platform_scale)
+BG = pygame.image.load('./sprites/BG/BGCloud1.png')
 platform_sprites.add(platform1)
 platform_sprites.add(platform2)
 platform_sprites.add(platform3)

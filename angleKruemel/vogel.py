@@ -8,7 +8,7 @@ class Vogel(pygame.sprite.Sprite):
 
         
 
-        self.image = pygame.image.load("angleKruemel\sprites\hover\BossBieneAnimationHover_0006_Frame-1.png")
+        self.image = pygame.image.load(".\sprites\hover\BossBieneAnimationHover_0006_Frame-1.png")
 
         self.size = self.image.get_size()
         self.image = pygame.transform.scale(self.image, (int(self.size[0]*scale), int(self.size[1]*scale)))
