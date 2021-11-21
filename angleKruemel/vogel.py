@@ -1,10 +1,12 @@
 import pygame
 
-class vogel(pygame.sprite.Sprite):
+class Vogel(pygame.sprite.Sprite):
     def __init__(self, pos_x, pos_y, scale):
         super().__init__()
         self.x = pos_x
         self.y = pos_y
+
+        
 
         self.image = pygame.image.load("angleKruemel\sprites\hover\BossBieneAnimationHover_0006_Frame-1.png")
 
@@ -13,3 +15,6 @@ class vogel(pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect()
         self.rect.topleft = [pos_x, pos_y]
+
+    def updateRect(self,x,y):
+        self.rect.topleft = [x, y]
